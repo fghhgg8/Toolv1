@@ -1,8 +1,23 @@
+# === Web server để giữ online (cho UptimeRobot ping) ===
+from flask import Flask
+from threading import Thread
+
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "Bot is alive!"
+
+def run():
+    app.run(host='0.0.0.0', port=8080)
+
+Thread(target=run).start()
+
+# === Bot Discord: Tài Xỉu từ MD5 ===
 import discord
 from discord.ext import commands
 import os
 
-# === Hàm tính toán từ MD5 ===
 def md5_to_dice(md5_hash):
     a = int(md5_hash[0:2], 16) % 6 + 1
     b = int(md5_hash[2:4], 16) % 6 + 1
@@ -57,9 +72,9 @@ def smart_predict(md5_hash):
 {prediction}
 """
 
-# === Tạo Bot Discord ===
+# === Bot Discord ===
 intents = discord.Intents.default()
-intents.message_content = True  # Để đọc nội dung tin nhắn
+intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 @bot.event
@@ -78,5 +93,4 @@ async def taixiu(ctx, md5: str):
     except Exception as e:
         await ctx.send(f"⚠️ Lỗi xử lý: {str(e)}")
 
-# ✅ Sửa đúng tên biến môi trường: DISCORD_TOKEN
-bot.run(os.getenv("DISCORD_TOKEN"))
+bot.run(os.getenv("TOKEN"))
