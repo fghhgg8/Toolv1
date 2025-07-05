@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: discord-bot
-    env: python
-    plan: free
-    buildCommand: ""
-    startCommand: bash start.sh
-    autoDeploy: true
